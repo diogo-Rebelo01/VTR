@@ -66,6 +66,8 @@
                                                     
                                         <valueof uniform="frequencia" 
                                                     type="RENDERER" component="frequencia" />
+                                        <valueof uniform="redistribuicao" 
+                                                    type="RENDERER" component="redistribuicao" />
                                         <valueof uniform="scale" 
                                                     type="RENDERER" component="scale" />
                                         <valueof uniform="first_level" 

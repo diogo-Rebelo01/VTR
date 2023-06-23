@@ -5,13 +5,14 @@ layout(triangles, fractional_odd_spacing, ccw) in;
 uniform	mat4 m_pvm, m_view;
 uniform	mat3 m_normal;
 uniform vec4 l_dir;
-uniform float amplitude, scale, frequencia, first_level, second_level, third_level;
+uniform float amplitude, scale, frequencia, first_level, second_level, third_level, redistribuicao;
 uniform int num_octaves;
 uniform vec4 dirt, grass, snow, sand;
 
 //in vec2 texCoordTC[];
 in vec4 posTC[];
 
+int adjust = 100;
 
 out Data {
     vec3 normal;
@@ -21,13 +22,13 @@ out Data {
 
 vec4 biome(float f){
     vec4 color;
-    if(f > third_level * scale){
+    if(f > (third_level * scale) + adjust){
         color = snow;
     }
-    else if(f <= third_level * scale && f > second_level * scale){
+    else if(f <= (third_level * scale) + adjust && f > (second_level * scale) + adjust){
         color = grass;
     }
-    else if(f <= second_level * scale && f > first_level * scale){
+    else if(f <= (second_level * scale) + adjust && f > (first_level * scale) + adjust){
         color = dirt;
     }
     else {
@@ -85,8 +86,15 @@ float elevation( in vec2 uv ) {
         freq *= 2.0;
         aux /= 2.0;
     }
-    height = height / auxT;
-    height = amplitude * height;
+    height /= auxT;
+    if(height > 0.0) height = pow(height,redistribuicao);
+    else{
+        height = - height;
+        height = pow(height,redistribuicao);
+        height = - height;
+    }
+    height *= amplitude;
+    height += adjust;
     return height;
 }
 
