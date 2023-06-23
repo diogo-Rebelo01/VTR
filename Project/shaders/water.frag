@@ -1,6 +1,6 @@
 #version 330
 
-uniform vec4 water;
+uniform vec4 WATER;
 uniform mat4 m_view;
 uniform vec4 l_dir;
 uniform float opacity;
@@ -20,6 +20,6 @@ void main() {
 
 	float intensity = max(0.0, dot(n, l));
 	
-	color = max(intensity, 0.5) * vec4(water.xyz,opacity);
+	color = max(intensity, 0.5) * vec4(WATER.xyz,opacity);
 	//color = vec4(water.xyz,opacity);
 }
