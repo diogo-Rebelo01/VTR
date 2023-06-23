@@ -6,7 +6,7 @@ uniform	mat4 m_pvm, m_view;
 uniform	mat3 m_normal;
 uniform vec4 l_dir;
 uniform float amplitude, scale, frequencia, first_level, second_level, third_level, redistribuicao;
-uniform int num_octaves;
+uniform int num_octaves, seed;
 uniform vec4 dirt, grass, snow, sand;
 
 //in vec2 texCoordTC[];
@@ -64,6 +64,8 @@ vec2 grad( ivec2 z )  // replace this anything that returns a random vector
 
 float noise( in vec2 p )
 {
+    p+= seed;
+
     ivec2 i = ivec2(floor( p ));
      vec2 f =       fract( p );
 	

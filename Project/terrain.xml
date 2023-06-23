@@ -3,6 +3,7 @@
 	<assets>
 		<attributes>
             <attribute name="num_octaves" type="RENDERER" data="INT" value="4" />
+            <attribute name="seed" type="RENDERER" data="INT" value="1" />
             <attribute name="level" data="FLOAT" type="RENDERER" value="10" />
             <attribute type="RENDERER" name="dirt" data="VEC4" x="0.183" y="0.161" z="0.121" w="1.0"/>
             <attribute type="RENDERER" name="grass" data="VEC4" x="0.266" y="0.411" z="0.239" w="1.0"/>
@@ -79,6 +80,7 @@
     <interface>
         <window label="Settings" >
             <var label="Num  Octaves" type="RENDERER" context="CURRENT" component="num_octaves" def="step=1 min=1 max=8" />
+            <var label="Seed" type="RENDERER" context="CURRENT" component="seed" def="step=1 min=1 max=100" />
             <var label="level" type="RENDERER" context="CURRENT" component="level" 
                     def="min=1 max=64 step=0.01"/>
             <var label="dirt" type="RENDERER" context="CURRENT" component="dirt" mode="COLOR" />

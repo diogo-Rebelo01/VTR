@@ -60,6 +60,9 @@
 
                                         <valueof uniform="num_octaves" 
                                                     type="RENDERER" component="num_octaves" />
+                                        
+                                        <valueof uniform="seed" 
+                                                    type="RENDERER" component="seed" />
                                                     
                                         <valueof uniform="amplitude" 
                                                     type="RENDERER" component="amplitude" />
