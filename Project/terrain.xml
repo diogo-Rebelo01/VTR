@@ -8,18 +8,26 @@
             <attribute type="RENDERER" name="grass" data="VEC4" x="0.266" y="0.411" z="0.239" w="1.0"/>
             <attribute type="RENDERER" name="snow" data="VEC4" x="1" y="1" z="1" w="1.0"/>
             <attribute type="RENDERER" name="sand" data="VEC4" x="0.76" y="0.7" z="0.5" w="1.0"/>
+            <attribute type="RENDERER" name="water" data="VEC4" x="0.058" y="0.368" z="0.611" w="1.0"/>
             <attribute name="amplitude" type="RENDERER" data= "FLOAT" value="1200.0" />
             <attribute name="frequencia" type="RENDERER" data= "FLOAT" value="1.0" />
+            <attribute type="RENDERER" name="opacity" data="FLOAT" value="0.5"/>
             <attribute type="RENDERER" name="first_level" data="FLOAT" value="100"/>
 			<attribute type="RENDERER" name="second_level" data="FLOAT" value="400"/>
+            <attribute type="RENDERER" name="water_level" data="FLOAT" value="50"/>
 			<attribute type="RENDERER" name="third_level" data="FLOAT" value="900"/>
-
-
 
 		</attributes>
 		<scenes>
             <scene name="Terreno" >
-				<geometry name="terrain" type ="GRID" LENGTH="10000" DIVISIONS="100" />
+				<geometry name="terrain" type ="GRID" LENGTH="10000" DIVISIONS="100" material="terrain">
+                    <TRANSLATE x="0.0" y="0.0" z="0.0" />
+                </geometry>
+			</scene>
+            <scene name="Water" >
+				<geometry name = "water" type = "GRID" LENGTH="20000"  DIVISIONS="4" material="water">
+                    <TRANSLATE x="0.0" y="0.0" z="0.0" />
+                </geometry>
 			</scene>
 		</scenes>
         <viewports>
@@ -52,14 +60,15 @@
             <pass name="noise" class="default" >
                 <scenes>
                     <scene name="Terreno" />
+                    <scene name="Water"/>
                 </scenes>
                 <camera name="MainCamera" />
                 <lights>
                     <light name="Sun" />
                 </lights>
  				<materialMaps>
-					<map fromMaterial="*" 
-                                toMaterial="terrain"  toLibrary="Terrain" />
+                    <map fromMaterial="terrain" toMaterial="terrain"  toLibrary="Terrain" />
+                    <map fromMaterial="water" toMaterial="water"  toLibrary="Terrain" />
 				</materialMaps>
             </pass>
         </pipeline>
@@ -74,10 +83,13 @@
             <var label="grass" type="RENDERER" context="CURRENT" component="grass" mode="COLOR" />
             <var label="snow" type="RENDERER" context="CURRENT" component="snow" mode="COLOR" />
             <var label="sand" type="RENDERER" context="CURRENT" component="sand" mode="COLOR" />
+            <var label="water" type="RENDERER" context="CURRENT" component="water" mode="COLOR" />
             <var label="Amplitude" type="RENDERER" context="CURRENT" component="amplitude" def="step=10 min=500 max=2000" />
             <var label="Frequencia" type="RENDERER" context="CURRENT" component="frequencia" def="step=0.1 min=1 max=10" />
+            <var label="Opacidade" type="RENDERER" context="CURRENT" component="opacity" def="step=0.05 min=0.3 max=0.5" />
             <var label="Primeiro Nível" type="RENDERER" context="CURRENT" component="first_level" def="step=10 min=0 max=100" />
             <var label="Segundo Nível" type="RENDERER" context="CURRENT" component="second_level" def="step=10 min=100 max=800" />
+            <var label="Nível da Água" type="RENDERER" context="CURRENT" component="water_level" def="step=10 min=0 max=150" />
             <var label="Terceiro Nível" type="RENDERER" context="CURRENT" component="third_level" def="step=10 min=800 max=1100" />
         </window>
     </interface>
