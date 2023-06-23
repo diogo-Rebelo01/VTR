@@ -1,0 +1,25 @@
+#version 410
+
+uniform	mat3 m_normal;
+uniform vec4 dirt, grass;
+
+
+in Data {
+	vec3 normal;
+	vec3 l_dir;
+} DataIn;
+
+out vec4 color;
+
+void main(void) {
+    float intensity, inclination;
+    intensity = max(0.0, dot(normalize(DataIn.normal), normalize(DataIn.l_dir)));
+    inclination = 0.6 * max(0.0, dot(normalize(DataIn.normal), normalize(m_normal * vec3(0,1,0))));
+
+	//outputF = intensity * diffuse + ambient;
+    //vec4 texture = (1-inclination) * dirt + inclination * texture(texGrass, DataIn.texCoord1);
+	vec4 texture = mix(dirt, grass, inclination);
+	color = clamp((intensity + 0.25) * texture, 0, 1);
+	//color = clamp((intensity + 0.25) * vec4(1,1,1,1), 0, 1);
+
+}

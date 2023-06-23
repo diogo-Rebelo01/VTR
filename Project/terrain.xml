@@ -1,0 +1,80 @@
+<?xml version="1.0" ?>
+<project name="Terrain Generation" width="512" height="512">
+	<assets>
+		<attributes>
+            <attribute name="num_octaves" type="RENDERER" data="INT" value="1" />
+            <attribute name="scale" type="RENDERER" data= "FLOAT" value="2.0" />
+            <attribute name="level" data="FLOAT" type="RENDERER" value="10" />
+            <attribute type="RENDERER" name="dirt" data="VEC4" x="0.058" y="0.368" z="0.611" w="1.0"/>
+            <attribute type="RENDERER" name="grass" data="VEC4" x="0.266" y="0.411" z="0.239" w="1.0"/>
+            <attribute name="amplitude" type="RENDERER" data= "FLOAT" value="1000.0" />
+            <attribute name="frequencia" type="RENDERER" data= "FLOAT" value="1.0" />
+
+
+
+		</attributes>
+		<scenes>
+            <scene name="Terreno" >
+				<geometry name="terrain" type ="GRID" LENGTH="10000" DIVISIONS="100" />
+			</scene>
+		</scenes>
+        <viewports>
+			<viewport name="MainViewport">
+				<CLEAR_COLOR r="1.0" g="1.0" b="1.0" />
+			</viewport>
+		</viewports>
+		
+		<cameras>
+			<camera name="MainCamera">
+				<viewport name="MainViewport" />
+				<POSITION x="0" y="700" z="2000" />
+				<VIEW x="0.0" y="-0.5" z="-1.0" />
+				<UP x="0" y="1" z="0" />
+			</camera>
+		</cameras>
+        <lights>
+			<light name="Sun" >
+				<DIRECTION x="1.0" y="-0.5" z="-2" />
+			</light>
+		</lights>
+        		
+		<materialLibs>
+			<materialLib filename="terrain.mlib"/>
+		</materialLibs>
+		
+	</assets>
+    <pipelines>
+        <pipeline name="noise" defaultCamera= "MainCamera" >
+            <pass name="noise" class="default" >
+                <scenes>
+                    <scene name="Terreno" />
+                </scenes>
+                <camera name="MainCamera" />
+                <lights>
+                    <light name="Sun" />
+                </lights>
+ 				<materialMaps>
+					<map fromMaterial="*" 
+                                toMaterial="terrain"  toLibrary="Terrain" />
+				</materialMaps>
+            </pass>
+        </pipeline>
+    </pipelines>
+
+    <interface>
+        <window label="Settings" >
+            <var label="Num  Octaves" type="RENDERER" context="CURRENT" component="num_octaves" def="step=1 min=1 max=8" />
+            <var label="Scale" type="RENDERER" context="CURRENT" component="scale" def="step=0.1 min=0.1 max=8" />
+            <var label="level" type="RENDERER" context="CURRENT" component="level" 
+                    def="min=1 max=64 step=0.01"/>
+            <var label="dirt" type="RENDERER" context="CURRENT"
+				 component="dirt" mode="COLOR" />
+            <var label="grass" type="RENDERER" context="CURRENT"
+				 component="grass" mode="COLOR" />
+            <var label="Amplitude" type="RENDERER" context="CURRENT" component="amplitude" def="step=10 min=500 max=2000" />
+            <var label="Frequencia" type="RENDERER" context="CURRENT" component="frequencia" def="step=0.1 min=1 max=10" />
+        </window>
+    </interface>
+</project>
+		
+	
