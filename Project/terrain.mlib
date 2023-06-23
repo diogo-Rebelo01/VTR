@@ -66,6 +66,8 @@
                                                     
                                         <valueof uniform="frequencia" 
                                                     type="RENDERER" component="frequencia" />
+                                        <valueof uniform="scale" 
+                                                    type="RENDERER" component="scale" />
                                         <valueof uniform="first_level" 
                                                     type="RENDERER" component="first_level" />
                                         <valueof uniform="second_level" 
@@ -78,6 +80,7 @@
                 <material name="water">
                         <shader name="water">
                                 <values>
+                                        <valueof uniform="scale" type="RENDERER" component="scale" />
 					<valueof uniform="m_pvm" type="RENDERER" context="CURRENT" component="PROJECTION_VIEW_MODEL"  />
 													
 					<valueof uniform="m_normal" type="RENDERER" context="CURRENT" component="NORMAL"  />	

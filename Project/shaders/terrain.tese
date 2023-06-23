@@ -21,13 +21,13 @@ out Data {
 
 vec4 biome(float f){
     vec4 color;
-    if(f > third_level){
+    if(f > third_level * scale){
         color = snow;
     }
-    else if(f <= third_level && f > second_level){
+    else if(f <= third_level * scale && f > second_level * scale){
         color = grass;
     }
-    else if(f <= second_level && f > first_level){
+    else if(f <= second_level * scale && f > first_level * scale){
         color = dirt;
     }
     else {
@@ -103,12 +103,12 @@ void main() {
 				 + posTC[2] * w);;
 
 	float offset = 16/frequencia;
-	float scale = 0.001;
-	vec2 uv =  scale * P.xz;
-	vec2 uv1 = uv - scale * vec2(0, offset);
-	vec2 uv2 = uv + scale * vec2(0, offset);
-	vec2 uv3 = uv - scale * vec2(offset, 0);
-	vec2 uv4 = uv + scale * vec2(offset, 0);
+	float scaleuv = 0.001;
+	vec2 uv =  scaleuv * P.xz;
+	vec2 uv1 = uv - scaleuv * vec2(0, offset);
+	vec2 uv2 = uv + scaleuv * vec2(0, offset);
+	vec2 uv3 = uv - scaleuv * vec2(offset, 0);
+	vec2 uv4 = uv + scaleuv * vec2(offset, 0);
 
     float f  = elevation(uv);
     float f1 = elevation(uv1);

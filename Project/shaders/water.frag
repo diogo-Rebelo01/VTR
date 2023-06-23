@@ -16,9 +16,10 @@ out vec4 color;
 void main() {
 	vec3 n = normalize(DataIn.normal);
 	vec3 l = normalize(vec3(m_view * l_dir));
-
-	float intensity = max(dot(n, l), 0.0);
 	
-	//color = max(intensity, 0.25) * vec4(water.xyz,0);
-	color = vec4(water.xyz,opacity);
+
+	float intensity = max(0.0, dot(n, l));
+	
+	color = max(intensity, 0.5) * vec4(water.xyz,opacity);
+	//color = vec4(water.xyz,opacity);
 }

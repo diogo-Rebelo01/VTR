@@ -1,5 +1,7 @@
 #version 410
 
+uniform float scale;
+
 in vec4 position;
 //in vec2 texCoord0;
 

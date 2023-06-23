@@ -2,6 +2,7 @@
 
 uniform	mat4 m_pvm;
 uniform mat3 m_normal;
+uniform float scale;
 
 uniform float water_level;
 
@@ -17,7 +18,7 @@ out Data {
 void main() {	
 	DataOut.normal = normalize(m_normal * normal);
 
-	vec4 vertex = (position + vec4(0.0, water_level, 0.0, 1.0));
+	vec4 vertex = (position + vec4(0.0, water_level * scale, 0.0, 1.0));
 	DataOut.vertex = vertex;
 
 	gl_Position = m_pvm * vertex;
