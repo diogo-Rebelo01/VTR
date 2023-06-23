@@ -5,8 +5,9 @@ layout(triangles, fractional_odd_spacing, ccw) in;
 uniform	mat4 m_pvm, m_view;
 uniform	mat3 m_normal;
 uniform vec4 l_dir;
-uniform float amplitude, scale, frequencia;
+uniform float amplitude, scale, frequencia, first_level, second_level, third_level;
 uniform int num_octaves;
+uniform vec4 dirt, grass, snow, sand;
 
 //in vec2 texCoordTC[];
 in vec4 posTC[];
@@ -15,7 +16,25 @@ in vec4 posTC[];
 out Data {
     vec3 normal;
 	vec3 l_dir;
+    vec4 colorV;
 } DataOut;
+
+vec4 biome(float f){
+    vec4 color;
+    if(f > third_level){
+        color = snow;
+    }
+    else if(f <= third_level && f > second_level){
+        color = grass;
+    }
+    else if(f <= second_level && f > first_level){
+        color = dirt;
+    }
+    else {
+        color = sand;
+    }
+    return color;
+}
 
 vec2 grad( ivec2 z )  // replace this anything that returns a random vector
 {
@@ -56,15 +75,19 @@ float noise( in vec2 p )
 }
 
 float elevation( in vec2 uv ) {
-    float height = 0;
+    float height = 0.0;
     float aux = 1.0;
+    float auxT = 0.0;
     float freq = frequencia;
     for(int i = 0; i < num_octaves; i++){
+        auxT += aux;
         height += aux * noise(freq * uv);
-        freq *= 2;
-        aux /= 2;
+        freq *= 2.0;
+        aux /= 2.0;
     }
-    return amplitude * height;
+    height = height / auxT;
+    height = amplitude * height;
+    return height;
 }
 
 
@@ -79,7 +102,7 @@ void main() {
 				 + posTC[1] * v
 				 + posTC[2] * w);;
 
-	float offset = 16;
+	float offset = 16/frequencia;
 	float scale = 0.001;
 	vec2 uv =  scale * P.xz;
 	vec2 uv1 = uv - scale * vec2(0, offset);
@@ -105,7 +128,7 @@ void main() {
 	// Pass-through the normal and light direction
 	DataOut.normal = normalize(m_normal * normalize(cross(vec3(pos2-pos1), vec3(pos4-pos3))));
 	DataOut.l_dir = normalize(vec3(m_view * -l_dir));
-
+    DataOut.colorV = biome(f);
 	// transform the vertex coordinates
 	gl_Position = m_pvm * pos;
 }

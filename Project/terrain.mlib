@@ -35,6 +35,12 @@
                                         <valueof uniform="grass" type="RENDERER" context="CURRENT"
 					        component="grass"/>
 
+                                        <valueof uniform="snow" type="RENDERER" context="CURRENT"
+					        component="snow"/>
+                                        
+                                        <valueof uniform="sand" type="RENDERER" context="CURRENT"
+					        component="sand"/>
+
                                         <valueof uniform="ilevel" type="RENDERER" context="CURRENT"
                                                 component="level" />
 
@@ -43,15 +49,18 @@
 
                                         <valueof uniform="num_octaves" 
                                                     type="RENDERER" component="num_octaves" />
-
-                                        <valueof uniform="scale" 
-                                                    type="RENDERER" component="scale" />
                                                     
                                         <valueof uniform="amplitude" 
                                                     type="RENDERER" component="amplitude" />
                                                     
                                         <valueof uniform="frequencia" 
                                                     type="RENDERER" component="frequencia" />
+                                        <valueof uniform="first_level" 
+                                                    type="RENDERER" component="first_level" />
+                                        <valueof uniform="second_level" 
+                                                    type="RENDERER" component="second_level" />
+                                        <valueof uniform="third_level" 
+                                                    type="RENDERER" component="third_level" />
                                 </values>
                         </shader>
                         <textures>

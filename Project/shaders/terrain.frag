@@ -1,12 +1,12 @@
 #version 410
 
 uniform	mat3 m_normal;
-uniform vec4 dirt, grass;
 
 
 in Data {
 	vec3 normal;
 	vec3 l_dir;
+	vec4 colorV;
 } DataIn;
 
 out vec4 color;
@@ -18,7 +18,8 @@ void main(void) {
 
 	//outputF = intensity * diffuse + ambient;
     //vec4 texture = (1-inclination) * dirt + inclination * texture(texGrass, DataIn.texCoord1);
-	vec4 texture = mix(dirt, grass, inclination);
+	//vec4 texture = mix(dirt, grass, inclination);
+	vec4 texture = DataIn.colorV;
 	color = clamp((intensity + 0.25) * texture, 0, 1);
 	//color = clamp((intensity + 0.25) * vec4(1,1,1,1), 0, 1);
 

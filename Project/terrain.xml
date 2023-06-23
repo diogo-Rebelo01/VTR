@@ -2,13 +2,17 @@
 <project name="Terrain Generation" width="512" height="512">
 	<assets>
 		<attributes>
-            <attribute name="num_octaves" type="RENDERER" data="INT" value="1" />
-            <attribute name="scale" type="RENDERER" data= "FLOAT" value="2.0" />
+            <attribute name="num_octaves" type="RENDERER" data="INT" value="4" />
             <attribute name="level" data="FLOAT" type="RENDERER" value="10" />
-            <attribute type="RENDERER" name="dirt" data="VEC4" x="0.058" y="0.368" z="0.611" w="1.0"/>
+            <attribute type="RENDERER" name="dirt" data="VEC4" x="0.183" y="0.161" z="0.121" w="1.0"/>
             <attribute type="RENDERER" name="grass" data="VEC4" x="0.266" y="0.411" z="0.239" w="1.0"/>
-            <attribute name="amplitude" type="RENDERER" data= "FLOAT" value="1000.0" />
+            <attribute type="RENDERER" name="snow" data="VEC4" x="1" y="1" z="1" w="1.0"/>
+            <attribute type="RENDERER" name="sand" data="VEC4" x="0.76" y="0.7" z="0.5" w="1.0"/>
+            <attribute name="amplitude" type="RENDERER" data= "FLOAT" value="1200.0" />
             <attribute name="frequencia" type="RENDERER" data= "FLOAT" value="1.0" />
+            <attribute type="RENDERER" name="first_level" data="FLOAT" value="100"/>
+			<attribute type="RENDERER" name="second_level" data="FLOAT" value="400"/>
+			<attribute type="RENDERER" name="third_level" data="FLOAT" value="900"/>
 
 
 
@@ -64,15 +68,17 @@
     <interface>
         <window label="Settings" >
             <var label="Num  Octaves" type="RENDERER" context="CURRENT" component="num_octaves" def="step=1 min=1 max=8" />
-            <var label="Scale" type="RENDERER" context="CURRENT" component="scale" def="step=0.1 min=0.1 max=8" />
             <var label="level" type="RENDERER" context="CURRENT" component="level" 
                     def="min=1 max=64 step=0.01"/>
-            <var label="dirt" type="RENDERER" context="CURRENT"
-				 component="dirt" mode="COLOR" />
-            <var label="grass" type="RENDERER" context="CURRENT"
-				 component="grass" mode="COLOR" />
+            <var label="dirt" type="RENDERER" context="CURRENT" component="dirt" mode="COLOR" />
+            <var label="grass" type="RENDERER" context="CURRENT" component="grass" mode="COLOR" />
+            <var label="snow" type="RENDERER" context="CURRENT" component="snow" mode="COLOR" />
+            <var label="sand" type="RENDERER" context="CURRENT" component="sand" mode="COLOR" />
             <var label="Amplitude" type="RENDERER" context="CURRENT" component="amplitude" def="step=10 min=500 max=2000" />
             <var label="Frequencia" type="RENDERER" context="CURRENT" component="frequencia" def="step=0.1 min=1 max=10" />
+            <var label="Primeiro Nível" type="RENDERER" context="CURRENT" component="first_level" def="step=10 min=0 max=100" />
+            <var label="Segundo Nível" type="RENDERER" context="CURRENT" component="second_level" def="step=10 min=100 max=800" />
+            <var label="Terceiro Nível" type="RENDERER" context="CURRENT" component="third_level" def="step=10 min=800 max=1100" />
         </window>
     </interface>
 </project>
