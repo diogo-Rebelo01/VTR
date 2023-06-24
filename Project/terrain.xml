@@ -41,6 +41,11 @@
 
 		</attributes>
 		<scenes>
+            <scene name = "skybox">
+                <geometry name = "skybox" material="skybox" type="BOX">
+                    <SCALE x = "100" y="100" z="100"/>
+                </geometry>
+            </scene>
             <scene name="Terreno" >
 				<geometry name="terrain" type ="GRID" LENGTH="10000" DIVISIONS="100" material="terrain">
                     <TRANSLATE x="0.0" y="0.0" z="0.0" />
@@ -81,6 +86,7 @@
         <pipeline name="noise" defaultCamera= "MainCamera" >
             <pass name="noise" class="default" >
                 <scenes>
+                    <scene name="skybox"/>
                     <scene name="Terreno" />
                     <scene name="Water"/>
                 </scenes>
@@ -89,6 +95,7 @@
                     <light name="Sun" />
                 </lights>
  				<materialMaps>
+                    <map fromMaterial="skybox" toMaterial="skybox" toLibrary="Terrain" />
                     <map fromMaterial="terrain" toMaterial="terrain"  toLibrary="Terrain" />
                     <map fromMaterial="water"   toMaterial="water"    toLibrary="Terrain" />
 				</materialMaps>
