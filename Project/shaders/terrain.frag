@@ -1,7 +1,7 @@
 #version 410
 
 uniform	mat3 m_normal;
-
+uniform samplerCube tex_cm;
 
 in Data {
 	vec3 normal;
