@@ -1,7 +1,7 @@
 #version 410
 
 uniform	mat3 m_normal;
-uniform sampler2D texDIRT, texGRASS, texSNOW, texSAND;
+uniform sampler2D texDIRT, texGRASS, texSNOW, texSAND, texROCK;
 uniform int use_textures;
 uniform float scale, first_level, second_level, third_level, fourth_level;
 
@@ -18,18 +18,42 @@ out vec4 color;
 int adjust = 100;
 
 vec4 biome_textures(float e, vec2 tc){
-    if(e < first_level) return texture(texSAND,tc);
+    float mixtc;
+    
+    if(e < (first_level*scale)) {
+        if(e <= 0) mixtc = 1.0 - smoothstep(0,first_level*scale,0);
+        else mixtc = 1.0 - smoothstep(0,first_level*scale,e);
+        vec3 sand = texture(texSAND,tc).xyz;
+        vec3 dirt = texture(texDIRT,tc).xyz;
+        return vec4(mix(dirt, sand, mixtc),1.0);
+        }
     
     if(e > (fourth_level * scale) + adjust){
         return texture(texSNOW,tc);
     }
     if(e > (third_level * scale) + adjust){
-        return texture(texDIRT,tc);
+        float start = (third_level * scale) + adjust;
+        float end = (fourth_level * scale) + adjust;
+        mixtc = 1.0 - smoothstep(start,end,e);
+        vec3 rock = texture(texROCK,tc).xyz;
+        vec3 snow = texture(texSNOW,tc).xyz;
+        return vec4(mix(snow, rock, mixtc),1.0);
     }
     if(e > (second_level * scale) + adjust){
-        return texture(texGRASS,tc);
+        float start = (second_level * scale) + adjust;
+        float end = (third_level * scale) + adjust;
+        mixtc = 1.0 - smoothstep(start,end,e);
+        vec3 grass = texture(texGRASS,tc).xyz;
+        vec3 rock = texture(texROCK,tc).xyz;
+        return vec4(mix(rock, grass, mixtc),1.0);
     }
-    return texture(texDIRT,tc);
+    //if (e < 100) = mixtc = 1.0 - smoothstep(100,second_level,100);
+    float start = (first_level * scale) + adjust;
+    float end = (second_level * scale) + adjust;
+    mixtc = 1.0 - smoothstep(start,end,e);
+    vec3 dirt = texture(texDIRT,tc).xyz;
+    vec3 grass = texture(texGRASS,tc).xyz;
+    return vec4(mix(grass, dirt, mixtc),1.0);
 }
 
 void main(void) {
