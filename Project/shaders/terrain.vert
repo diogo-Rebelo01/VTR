@@ -3,12 +3,12 @@
 uniform float scale;
 
 in vec4 position;
-//in vec2 texCoord0;
+in vec2 texCoord0;
 
 out vec4 posV;
-//out vec2 texCoordV;
+out vec2 texCoordV;
 
 void main(void) {
     posV = position;
-//    texCoordV = texCoord0;
+    texCoordV = texCoord0;
 }

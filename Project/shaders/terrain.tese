@@ -2,18 +2,19 @@
 
 layout(triangles, fractional_odd_spacing, ccw) in;
 
+
 uniform	mat4 m_pvm, m_view;
 uniform	mat3 m_normal;
 uniform vec4 l_dir;
-uniform float amplitude, scale, scaleMoisture, frequencia, first_level, second_level, third_level, fourth_level, redistribuicao, seed, seedMoisure;
-uniform int num_octaves;
+uniform float amplitude, scale, scaleMoisture, scaleTex, frequencia, first_level, second_level, third_level, fourth_level, redistribuicao, seed, seedMoisure;
+uniform int num_octaves, use_moisture;
 uniform vec4 BEACH,
              CORCHED,BARE,TUNDRA, SNOW,
              SHRUBLAND, TAIGA, SCORCHED,
              TEMPERATE_DESERT, TEMPERATE_DECIDUOUS_FOREST, TEMPERATE_RAIN_FOREST,
              SUBTROPICAL_DESERT, GRASSLAND, TROPICAL_SEASONAL_FOREST, TROPICAL_RAIN_FOREST;
 
-//in vec2 texCoordTC[];
+in vec2 texCoordTC[];
 in vec4 posTC[];
 
 int adjust = 100;
@@ -22,6 +23,8 @@ out Data {
     vec3 normal;
 	vec3 l_dir;
     vec4 colorV;
+    vec2 tc;
+    float e;
 } DataOut;
 
 
@@ -157,7 +160,11 @@ void main() {
 	// compute point as weighted average of triangle vertices
 	vec4 P = vec4( posTC[0] * u
 				 + posTC[1] * v
-				 + posTC[2] * w);;
+				 + posTC[2] * w);
+    
+    vec2 texCoord = vec2( texCoordTC[0] * u
+						+ texCoordTC[1] * v
+						+ texCoordTC[2] * w);
 
 	float offset = 16/frequencia;
 	float scaleuv = 0.001;
@@ -184,9 +191,13 @@ void main() {
 	//DataOut.texCoord1 = texCoord * tex;
 
 	// Pass-through the normal and light direction
+    DataOut.tc = texCoord * scaleTex;
 	DataOut.normal = normalize(m_normal * normalize(cross(vec3(pos2-pos1), vec3(pos4-pos3))));
 	DataOut.l_dir = normalize(vec3(m_view * -l_dir));
-    float m = moisture(uv);
+    DataOut.e = f;
+    float m;
+    if(use_moisture == 1) m = moisture(uv);
+    else m = 1;
     DataOut.colorV = biome(f,m);
 	// transform the vertex coordinates
 	gl_Position = m_pvm * pos;

@@ -1,15 +1,36 @@
 #version 410
 
 uniform	mat3 m_normal;
-
+uniform sampler2D texDIRT, texGRASS, texSNOW, texSAND;
+uniform int use_textures;
+uniform float scale, first_level, second_level, third_level, fourth_level;
 
 in Data {
 	vec3 normal;
 	vec3 l_dir;
 	vec4 colorV;
+	vec2 tc;
+	float e;
 } DataIn;
 
 out vec4 color;
+
+int adjust = 100;
+
+vec4 biome_textures(float e, vec2 tc){
+    if(e < first_level) return texture(texSAND,tc);
+    
+    if(e > (fourth_level * scale) + adjust){
+        return texture(texSNOW,tc);
+    }
+    if(e > (third_level * scale) + adjust){
+        return texture(texDIRT,tc);
+    }
+    if(e > (second_level * scale) + adjust){
+        return texture(texGRASS,tc);
+    }
+    return texture(texDIRT,tc);
+}
 
 void main(void) {
     float intensity, inclination;
@@ -19,7 +40,9 @@ void main(void) {
 	//outputF = intensity * diffuse + ambient;
     //vec4 texture = (1-inclination) * dirt + inclination * texture(texGrass, DataIn.texCoord1);
 	//vec4 texture = mix(dirt, grass, inclination);
-	vec4 texture = DataIn.colorV;
+	vec4 texture;
+	if(use_textures == 0) texture = DataIn.colorV;
+	else texture = biome_textures(DataIn.e, DataIn.tc);
 	color = clamp((intensity + 0.25) * texture, 0, 1);
 	//color = clamp((intensity + 0.25) * vec4(1,1,1,1), 0, 1);
 

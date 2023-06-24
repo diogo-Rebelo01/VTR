@@ -2,10 +2,11 @@
 <project name="Terrain Generation" width="1920" height="1080">
 	<assets>
 		<attributes>
-            <attribute type="RENDERER" data="INT"   name="num_octaves" value="4" />
-            <attribute type="RENDERER" data="FLOAT" name="seed"        value="1" />
-            <attribute type="RENDERER" data="FLOAT" name="seedMoisure" value="1" />
+            <attribute type="RENDERER" data="INT"   name="num_octaves" value="4"  />
+            <attribute type="RENDERER" data="FLOAT" name="seed"        value="1"  />
+            <attribute type="RENDERER" data="FLOAT" name="seedMoisure" value="1"  />
             <attribute type="RENDERER" data="FLOAT" name="level"       value="10" />
+            <attribute type="RENDERER" data="FLOAT" name="scaleTex"    value="10" />
             <!-- COLORS BIOMES -->
             <attribute type="RENDERER" data="VEC4" name="BEACH"                      x="0.996" y="0.859" z="0.718"/>
             <attribute type="RENDERER" data="VEC4" name="SCORCHED"                   x="0.208" y="0.122" z="0.098"/>
@@ -27,14 +28,16 @@
             <attribute type="RENDERER" data="FLOAT" name="frequencia"     value="1.0"   />
             <attribute type="RENDERER" data="FLOAT" name="redistribuicao" value="1.0"   />
             <attribute type="RENDERER" data="FLOAT" name="opacity"        value="0.5"   />
-            <attribute type="RENDERER" data="FLOAT" name="scale"          value="0.1"   />
-            <attribute type="RENDERER" data="FLOAT" name="scaleMoisture"  value="2.0"   />
+            <attribute type="RENDERER" data="FLOAT" name="scale"          value="1.0"   />
+            <attribute type="RENDERER" data="FLOAT" name="scaleMoisture"  value="1.0"   />
             <!-- LAYERS SETTINGS -->
             <attribute type="RENDERER" data="FLOAT" name="first_level"    value="50"    />
 			<attribute type="RENDERER" data="FLOAT" name="second_level"   value="300"   />
 			<attribute type="RENDERER" data="FLOAT" name="third_level"    value="700"   />
             <attribute type="RENDERER" data="FLOAT" name="fourth_level"   value="950"   />
             <attribute type="RENDERER" data="FLOAT" name="water_level"    value="75"    />
+            <attribute type="RENDERER" data="INT"   name="use_moisture"   value="1"     />
+            <attribute type="RENDERER" data="INT"   name="use_textures"   value="1"     />
 
 		</attributes>
 		<scenes>
@@ -100,7 +103,7 @@
             <var type="RENDERER" context="CURRENT" label="Seed 2"         component="seedMoisure"    def="step=0.1 min=1    max=100"  />
             <var type="RENDERER" context="CURRENT" label="level"          component="level"          def="step=0.1 min=1    max=64 "  />
             <var type="RENDERER" context="CURRENT" label="Amplitude"      component="amplitude"      def="step=10  min=500  max=2000" />
-            <var type="RENDERER" context="CURRENT" label="Frequencia"     component="frequencia"     def="step=0.1 min=1    max=5"    />
+            <var type="RENDERER" context="CURRENT" label="Frequencia"     component="frequencia"     def="step=0.1 min=0.1  max=5"    />
             <var type="RENDERER" context="CURRENT" label="Redistribuição" component="redistribuicao" def="step=0.5 min=0.01 max=5"    />
         </window>
         <window label="Biomes Colors">
@@ -128,7 +131,10 @@
             <var type="RENDERER" context="CURRENT" label="Nível da Água"     component="water_level"   def="step=10   min=0   max=150"  />
             <var type="RENDERER" context="CURRENT" label="Scale"             component="scale"         def="step=0.05 min=0.1 max=2"    />
             <var type="RENDERER" context="CURRENT" label="Scale Moisture"    component="scaleMoisture" def="step=0.05 min=0.1 max=2"    />
+            <var type="RENDERER" context="CURRENT" label="Scale Texture"     component="scaleTex"      def="step=0.1  min=1.0 max=20"   />
             <var type="RENDERER" context="CURRENT" label="Opacidade da Água" component="opacity"       def="step=0.05 min=0.1 max=0.7"  />
+            <var type="RENDERER" context="CURRENT" label="Moisture"          component="use_moisture"  def="step=1    min=0   max=1"    />
+            <var type="RENDERER" context="CURRENT" label="Textures"          component="use_textures"  def="step=1    min=0   max=1"    />
         </window>
     </interface>
 </project>

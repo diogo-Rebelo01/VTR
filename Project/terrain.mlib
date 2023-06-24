@@ -2,7 +2,11 @@
 <materialLib name="Terrain">
 
         <textures>
-        </textures>
+		<texture name="texDIRT"  filename="textures/dirt.png"  mipmap="true" />
+                <texture name="texGRASS" filename="textures/grass.png" mipmap="true" />
+                <texture name="texSNOW"  filename="textures/snow.jpg"  mipmap="true" />
+                <texture name="texSAND"  filename="textures/sand.jpg"  mipmap="true" />
+	</textures>
 
         <shaders>
                 <shader name="terrain" ps="shaders/terrain.frag"
@@ -42,6 +46,9 @@
                                         <valueof uniform="redistribuicao" type="RENDERER" component="redistribuicao" />
                                         <valueof uniform="scale"          type="RENDERER" component="scale"          />
                                         <valueof uniform="scaleMoisture"  type="RENDERER" component="scaleMoisture"  />
+                                        <valueof uniform="scaleTex"       type="RENDERER" component="scaleTex"       />
+                                        <valueof uniform="use_moisture"   type="RENDERER" component="use_moisture"   />
+                                        <valueof uniform="use_textures"   type="RENDERER" component="use_textures"   />
                                         <!-- LAYERS LEVELS -->
                                         <valueof uniform="first_level"  type="RENDERER"  component="first_level"   />
                                         <valueof uniform="second_level" type="RENDERER"  component="second_level"  />
@@ -62,8 +69,19 @@
                                         <valueof uniform="SUBTROPICAL_DESERT"         type="RENDERER" context="CURRENT" component="SUBTROPICAL_DESERT"         />
                                         <valueof uniform="TROPICAL_SEASONAL_FOREST"   type="RENDERER" context="CURRENT" component="TROPICAL_SEASONAL_FOREST"   />
                                         <valueof uniform="TROPICAL_RAIN_FOREST"       type="RENDERER" context="CURRENT" component="TROPICAL_RAIN_FOREST"       />
+                                        <!-- TEXTURES -->
+                                        <valueof uniform="texDIRT"  type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id="0" />
+                                        <valueof uniform="texGRASS" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id="1" />
+                                        <valueof uniform="texSNOW"  type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id="2" />
+                                        <valueof uniform="texSAND"  type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id="3" />
                                 </values>
                         </shader>
+                        <textures>
+				<texture name="texDIRT"  UNIT = "0" />
+                                <texture name="texGRASS" UNIT = "1" />
+                                <texture name="texSNOW"  UNIT = "2" />
+                                <texture name="texSAND"  UNIT = "3" />
+			</textures>
                 </material>
                 <material name="water">
                         <shader name="water">
