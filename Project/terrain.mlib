@@ -133,7 +133,6 @@
                                         <!-- WATER SETTINS -->
 					<valueof uniform="water_level" type="RENDERER" context="CURRENT" component="water_level" />
                                         <valueof uniform="opacity"     type="RENDERER" context="CURRENT" component="opacity"     />				
-                                        <valueof uniform="scale"       type="RENDERER" context="CURRENT" component="scale"       />
                                         <valueof uniform="WATER"       type="RENDERER" context="CURRENT" component="WATER"       />
 					
                                 </values>
