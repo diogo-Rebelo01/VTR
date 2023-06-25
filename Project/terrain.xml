@@ -7,22 +7,20 @@
             <attribute type="RENDERER" data="FLOAT" name="seedMoisure" value="1"  />
             <attribute type="RENDERER" data="FLOAT" name="level"       value="10" />
             <attribute type="RENDERER" data="FLOAT" name="scaleTex"    value="10" />
-            <!-- COLORS BIOMES -->
-            <attribute type="RENDERER" data="VEC4" name="BEACH"                      x="0.996" y="0.859" z="0.718"/>
-            <attribute type="RENDERER" data="VEC4" name="DIRT"                   x="0.208" y="0.122" z="0.098"/>
-            <attribute type="RENDERER" data="VEC4" name="BARE"                       x="0.299" y="0.422" z="0.291"/>
-            <attribute type="RENDERER" data="VEC4" name="TUNDRA"                     x="0.791" y="0.917" z="0.913"/>
-            <attribute type="RENDERER" data="VEC4" name="SNOW"                       x="1.000" y="1.000" z="1.000"/>
-            <attribute type="RENDERER" data="VEC4" name="SHRUBLAND"                  x="0.835" y="0.741" z="0.565"/>
-            <attribute type="RENDERER" data="VEC4" name="ROCK"                      x="0.282" y="0.286" z="0.216"/>
-            <attribute type="RENDERER" data="VEC4" name="TEMPERATE_DESERT"           x="0.812" y="0.518" z="0.349"/>
-            <attribute type="RENDERER" data="VEC4" name="GRASSLAND"                  x="0.643" y="0.643" z="0.322"/>
-            <attribute type="RENDERER" data="VEC4" name="TEMPERATE_DECIDUOUS_FOREST" x="0.095" y="0.284" z="0.156"/>
-            <attribute type="RENDERER" data="VEC4" name="TEMPERATE_RAIN_FOREST"      x="0.333" y="0.588" z="0.102"/>
-            <attribute type="RENDERER" data="VEC4" name="SUBTROPICAL_DESERT"         x="0.592" y="0.459" z="0.349"/>
-            <attribute type="RENDERER" data="VEC4" name="TROPICAL_SEASONAL_FOREST"   x="0.608" y="0.627" z="0.157"/>
-            <attribute type="RENDERER" data="VEC4" name="TROPICAL_RAIN_FOREST"       x="0.208" y="0.278" z="0.035"/>
-            <attribute type="RENDERER" data="VEC4" name="WATER"                      x="0.058" y="0.368" z="0.611"/>
+            <attribute type="RENDERER" data="FLOAT" name="offset"      value="16" />
+            <!-- COLORS BIOMES (SNOW, MOUNTAIN, TUNDRA, BADLANDS, MUD, DIRT, GRAVEL, BEACH, DESERT, GRASSLAND, FOREST)-->
+            <attribute type="RENDERER" data="VEC4" name="BEACH"                      x="0.985" y="0.880" z="0.589" />
+            <attribute type="RENDERER" data="VEC4" name="DIRT"                       x="0.338" y="0.269" z="0.191" />
+            <attribute type="RENDERER" data="VEC4" name="TUNDRA"                     x="0.794" y="1.000" z="0.976" />
+            <attribute type="RENDERER" data="VEC4" name="SNOW"                       x="1.000" y="1.000" z="1.000" />
+            <attribute type="RENDERER" data="VEC4" name="MOUNTAIN"                   x="0.279" y="0.279" z="0.279" />
+            <attribute type="RENDERER" data="VEC4" name="DESERT"                     x="0.966" y="0.665" z="0.284" />
+            <attribute type="RENDERER" data="VEC4" name="GRASSLAND"                  x="0.337" y="0.681" z="0.304" />
+            <attribute type="RENDERER" data="VEC4" name="FOREST"                     x="0.045" y="0.216" z="0.060" />
+            <attribute type="RENDERER" data="VEC4" name="WATER"                      x="0.058" y="0.368" z="0.611" />
+            <attribute type="RENDERER" data="VEC4" name="MUD"                        x="0.167" y="0.074" z="0.000" />
+            <attribute type="RENDERER" data="VEC4" name="GRAVEL"                     x="0.564" y="0.564" z="0.564" />
+            <attribute type="RENDERER" data="VEC4" name="BADLANDS"                   x="0.760" y="0.357" z="0.138" />
             <!-- NOISE SETTINGS -->
             <attribute type="RENDERER" data="FLOAT" name="amplitude"      value="500.0" />
             <attribute type="RENDERER" data="FLOAT" name="frequencia"     value="1.0"   />
@@ -59,9 +57,12 @@
 		</scenes>
         <viewports>
 			<viewport name="MainViewport">
+                <ORIGIN x="0.0" y="0.0" />
 				<CLEAR_COLOR r="1.0" g="1.0" b="1.0" />
 			</viewport>
             <viewport name="MinimapViewport">
+                <ORIGIN x="0.0" y="0.75" />
+                <SIZE width="0.25" height="0.25" />
 				<CLEAR_COLOR r="1.0" g="1.0" b="1.0" />
 			</viewport>
 		</viewports>
@@ -92,14 +93,32 @@
 		
 	</assets>
     <pipelines>
-        <pipeline name="terrain" defaultCamera= "MainCamera" >
-            <pass name="terrain" class="default" >
+        <pipeline name="terrain" default="true" defaultCamera="MainCamera">
+            <pass name="Minimap" class="default" >
                 <scenes>
                     <scene name="Terreno" />
                     <scene name="Water"/>
                     <scene name="skybox"/>
                 </scenes>
                 <camera name="MainCamera" />
+                <viewport name="MainViewport"/>
+                <lights>
+                    <light name="Sun" />
+                </lights>
+ 				<materialMaps>
+                    <map fromMaterial="skybox"  toMaterial="skybox"   toLibrary="Terrain" />
+                    <map fromMaterial="terrain" toMaterial="terrain"  toLibrary="Terrain" />
+                    <map fromMaterial="water"   toMaterial="water"    toLibrary="Terrain" />
+				</materialMaps>
+            </pass>
+            <pass name="Minimap" class="default" >
+                <scenes>
+                    <scene name="Terreno" />
+                    <scene name="Water"/>
+                    <scene name="skybox"/>
+                </scenes>
+                <camera name="Minimap" />
+                <viewport name="MinimapViewport"/>
                 <lights>
                     <light name="Sun" />
                 </lights>
@@ -113,46 +132,44 @@
     </pipelines>
 
     <interface>
-        <window label="Noise Settings" >
-            <var type="RENDERER" context="CURRENT" label="Octaves"        component="num_octaves"    def="step=1   min=1    max=16"   />
-            <var type="RENDERER" context="CURRENT" label="Seed"           component="seed"           def="step=0.1 min=1    max=100"  />
-            <var type="RENDERER" context="CURRENT" label="Seed 2"         component="seedMoisure"    def="step=0.1 min=1    max=100"  />
-            <var type="RENDERER" context="CURRENT" label="level"          component="level"          def="step=0.1 min=1    max=64 "  />
-            <var type="RENDERER" context="CURRENT" label="Amplitude"      component="amplitude"      def="step=10  min=500  max=2000" />
-            <var type="RENDERER" context="CURRENT" label="Frequencia"     component="frequencia"     def="step=0.1 min=0.1  max=5"    />
-            <var type="RENDERER" context="CURRENT" label="Redistribuição" component="redistribuicao" def="step=0.5 min=0.01 max=5"    />
+        <window label="Terrain Settings" >
+            <var type="RENDERER" context="CURRENT" label="Octaves"          component="num_octaves"    def="step=1   min=1    max=16"   />
+            <var type="RENDERER" context="CURRENT" label="Seed Terreno"     component="seed"           def="step=0.1 min=1    max=100"  />
+            <var type="RENDERER" context="CURRENT" label="Seed Biomas Sec." component="seedMoisure"    def="step=0.1 min=1    max=100"  />
+            <var type="RENDERER" context="CURRENT" label="Nível"            component="level"          def="step=0.1 min=1    max=64 "  />
+            <var type="RENDERER" context="CURRENT" label="Amplitude"        component="amplitude"      def="step=10  min=500  max=2000" />
+            <var type="RENDERER" context="CURRENT" label="Frequência"       component="frequencia"     def="step=0.1 min=0.1  max=5"    />
+            <var type="RENDERER" context="CURRENT" label="Redistribuição"   component="redistribuicao" def="step=0.5 min=0.01 max=5"    />
+            <var type="RENDERER" context="CURRENT" label="Offset"           component="offset"         def="step=0.5 min=10   max=50"   />
         </window>
         <window label="Biomas Secundários">
-            <var type="RENDERER" context="CURRENT" label="BARE"                       component="BARE"                       mode="COLOR"/>
+            <var type="RENDERER" context="CURRENT" label="MUD"                        component="MUD"                        mode="COLOR"/>
+            <var type="RENDERER" context="CURRENT" label="GRAVEL"                     component="GRAVEL"                     mode="COLOR"/>
             <var type="RENDERER" context="CURRENT" label="TUNDRA"                     component="TUNDRA"                     mode="COLOR"/>
-            <var type="RENDERER" context="CURRENT" label="SHRUBLAND"                  component="SHRUBLAND"                  mode="COLOR"/>
-            <var type="RENDERER" context="CURRENT" label="TEMPERATE_DESERT"           component="TEMPERATE_DESERT"           mode="COLOR"/>
-            <var type="RENDERER" context="CURRENT" label="TEMPERATE_DECIDUOUS_FOREST" component="TEMPERATE_DECIDUOUS_FOREST" mode="COLOR"/>
-            <var type="RENDERER" context="CURRENT" label="TEMPERATE_RAIN_FOREST"      component="TEMPERATE_RAIN_FOREST"      mode="COLOR"/>
-            <var type="RENDERER" context="CURRENT" label="SUBTROPICAL_DESERT"         component="SUBTROPICAL_DESERT"         mode="COLOR"/>
-            <var type="RENDERER" context="CURRENT" label="TROPICAL_SEASONAL_FOREST"   component="TROPICAL_SEASONAL_FOREST"   mode="COLOR"/>
-            <var type="RENDERER" context="CURRENT" label="TROPICAL_RAIN_FOREST"       component="TROPICAL_RAIN_FOREST"       mode="COLOR"/>
+            <var type="RENDERER" context="CURRENT" label="DESERT"                     component="DESERT"                     mode="COLOR"/>
+            <var type="RENDERER" context="CURRENT" label="FOREST"                     component="FOREST"                     mode="COLOR"/>
+            <var type="RENDERER" context="CURRENT" label="BADLANDS"                   component="BADLANDS"                   mode="COLOR"/>
         </window>
         <window label="Biomas Principais">
             <var type="RENDERER" context="CURRENT" label="WATER"                      component="WATER"                      mode="COLOR"/>
             <var type="RENDERER" context="CURRENT" label="BEACH"                      component="BEACH"                      mode="COLOR"/>
             <var type="RENDERER" context="CURRENT" label="DIRT"                       component="DIRT"                       mode="COLOR"/>
             <var type="RENDERER" context="CURRENT" label="GRASSLAND"                  component="GRASSLAND"                  mode="COLOR"/>
-            <var type="RENDERER" context="CURRENT" label="ROCK"                       component="ROCK"                       mode="COLOR"/>
+            <var type="RENDERER" context="CURRENT" label="MOUNTAIN"                   component="MOUNTAIN"                   mode="COLOR"/>
             <var type="RENDERER" context="CURRENT" label="SNOW"                       component="SNOW"                       mode="COLOR"/>
         </window>
         <window label="Layers Settings">
-            <var type="RENDERER" context="CURRENT" label="Primeiro Nível"    component="first_level"   def="step=10   min=0   max=50"   />
-            <var type="RENDERER" context="CURRENT" label="Segundo Nível"     component="second_level"  def="step=10   min=50  max=550"  />
-            <var type="RENDERER" context="CURRENT" label="Terceiro Nível"    component="third_level"   def="step=10   min=550 max=850"  />
-            <var type="RENDERER" context="CURRENT" label="Quarto Nível"      component="fourth_level"  def="step=10   min=850 max=1050" />
-            <var type="RENDERER" context="CURRENT" label="Nível da Água"     component="water_level"   def="step=10   min=0   max=150"  />
-            <var type="RENDERER" context="CURRENT" label="Scale"             component="scale"         def="step=0.05 min=0.1 max=2"    />
-            <var type="RENDERER" context="CURRENT" label="Scale Moisture"    component="scaleMoisture" def="step=0.05 min=0.1 max=2"    />
-            <var type="RENDERER" context="CURRENT" label="Scale Texture"     component="scaleTex"      def="step=0.1  min=1.0 max=20"   />
-            <var type="RENDERER" context="CURRENT" label="Opacidade da Água" component="opacity"       def="step=0.05 min=0.1 max=0.7"  />
-            <var type="RENDERER" context="CURRENT" label="Moisture"          component="use_moisture"  def="step=1    min=0   max=1"    />
-            <var type="RENDERER" context="CURRENT" label="Textures"          component="use_textures"  def="step=1    min=0   max=1"    />
+            <var type="RENDERER" context="CURRENT" label="Primeiro Nível"     component="first_level"   def="step=10   min=0   max=50"   />
+            <var type="RENDERER" context="CURRENT" label="Segundo Nível"      component="second_level"  def="step=10   min=50  max=550"  />
+            <var type="RENDERER" context="CURRENT" label="Terceiro Nível"     component="third_level"   def="step=10   min=550 max=850"  />
+            <var type="RENDERER" context="CURRENT" label="Quarto Nível"       component="fourth_level"  def="step=10   min=850 max=1050" />
+            <var type="RENDERER" context="CURRENT" label="Nível da Água"      component="water_level"   def="step=10   min=0   max=500"  />
+            <var type="RENDERER" context="CURRENT" label="Scale Níveis"       component="scale"         def="step=0.05 min=0.1 max=2"    />
+            <var type="RENDERER" context="CURRENT" label="Scale Biomas Sec."  component="scaleMoisture" def="step=0.05 min=0.1 max=2"    />
+            <var type="RENDERER" context="CURRENT" label="Scale Texturas"     component="scaleTex"      def="step=0.1  min=1.0 max=20"   />
+            <var type="RENDERER" context="CURRENT" label="Opacidade da Água"  component="opacity"       def="step=0.05 min=0   max=1.0"  />
+            <var type="RENDERER" context="CURRENT" label="Biomas Secundários" component="use_moisture"  def="step=1    min=0   max=1"    />
+            <var type="RENDERER" context="CURRENT" label="Texturas"           component="use_textures"  def="step=1    min=0   max=1"    />
         </window>
     </interface>
 </project>

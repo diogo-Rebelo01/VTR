@@ -6,14 +6,9 @@ layout(triangles, fractional_odd_spacing, ccw) in;
 uniform	mat4 m_pvm, m_view;
 uniform	mat3 m_normal;
 uniform vec4 l_dir;
-uniform float amplitude, scale, scaleMoisture, scaleTex, frequencia, first_level, second_level, third_level, fourth_level, redistribuicao, seed, seedMoisure;
+uniform float amplitude, scale, scaleMoisture, scaleTex, frequencia, first_level, second_level, third_level, fourth_level, redistribuicao, seed, seedMoisure, offset;
 uniform int num_octaves, use_moisture;
-uniform vec4 BEACH,
-             CORCHED,BARE,TUNDRA, SNOW,
-             SHRUBLAND, ROCK, DIRT,
-             TEMPERATE_DESERT, TEMPERATE_DECIDUOUS_FOREST, TEMPERATE_RAIN_FOREST,
-             SUBTROPICAL_DESERT, GRASSLAND, TROPICAL_SEASONAL_FOREST, TROPICAL_RAIN_FOREST;
-
+uniform vec4 SNOW, MOUNTAIN, TUNDRA, BADLANDS, MUD, DIRT, GRAVEL, BEACH, DESERT, GRASSLAND, FOREST;
 in vec2 texCoordTC[];
 in vec4 posTC[];
 
@@ -49,11 +44,11 @@ float moistureNoise(vec2 p){
 
 vec4 biome_no_moisure(float e){
     float mixtc;
-    //beach
+    //BEACH
     //DIRT
-    //grassland
-    //rock
-    //snow
+    //GRASSLAND
+    //MOUNTAIN
+    //SNOW
     if(e < (first_level*scale)) {
         if(e <= 0) mixtc = 1.0 - smoothstep(0,first_level*scale,0);
         else mixtc = 1.0 - smoothstep(0,first_level*scale,e);
@@ -69,17 +64,17 @@ vec4 biome_no_moisure(float e){
         float start = (third_level * scale) + adjust;
         float end = (fourth_level * scale) + adjust;
         mixtc = 1.0 - smoothstep(start,end,e);
-        vec3 rock = ROCK.xyz;
+        vec3 mountain = MOUNTAIN.xyz;
         vec3 snow = SNOW.xyz;
-        return vec4(mix(snow, rock, mixtc),1.0);
+        return vec4(mix(snow, mountain, mixtc),1.0);
     }
     if(e > (second_level * scale) + adjust){
         float start = (second_level * scale) + adjust;
         float end = (third_level * scale) + adjust;
         mixtc = 1.0 - smoothstep(start,end,e);
         vec3 grassland = GRASSLAND.xyz;
-        vec3 rock = ROCK.xyz;
-        return vec4(mix(rock, grassland, mixtc),1.0);
+        vec3 mountain = MOUNTAIN.xyz;
+        return vec4(mix(mountain, grassland, mixtc),1.0);
     }
     //if (e < 100) = mixtc = 1.0 - smoothstep(100,second_level,100);
     float start = (first_level * scale) + adjust;
@@ -95,24 +90,24 @@ vec4 biome_fourth_level(float m){
     if(m < 0) m = 0;
     if(m > 1) m = 1;
     float mixcolor;
-
-    if (m < 0.1) {
-        mixcolor = 1.0 - smoothstep(0.0,0.1,m);
-        //DIRT >> BARE
-        return vec4(mix(BARE.xyz, DIRT.xyz, mixcolor),1.0);
-    }
     if (m < 0.2) {
-        mixcolor = 1.0 - smoothstep(0.1,0.2,m);
-        //BARE >> TUNDRA
-        return vec4(mix(TUNDRA.xyz, BARE.xyz, mixcolor),1.0);
+        mixcolor = 1.0 - smoothstep(0.0,0.2,m);
+        //BADLANDS >> MOUNTAIN
+        return vec4(mix(MOUNTAIN.xyz, BADLANDS.xyz, mixcolor),1.0);
+    }
+    if (m < 0.3) {
+        mixcolor = 1.0 - smoothstep(0.2,0.3,m);
+        //MOUNTAIN >> TUNDRA
+        return vec4(mix(TUNDRA.xyz, MOUNTAIN.xyz, mixcolor),1.0);
     }
     if (m < 0.5){
-        mixcolor = 1.0 - smoothstep(0.2,0.5,m);
+        mixcolor = 1.0 - smoothstep(0.3,0.5,m);
         //TUNDRA >> SNOW
         return vec4(mix(SNOW.xyz, TUNDRA.xyz, mixcolor),1.0);
     }
     return SNOW;
 }
+
 
 vec4 biome_first_level(float m){
     if(m < 0) m = 0;
@@ -121,43 +116,39 @@ vec4 biome_first_level(float m){
 
     if (m < 0.16) {
         mixcolor = 1.0 - smoothstep(0.0,0.16,m);
-        //SUBTROPICAL_DESERT >> GRASSLAND
-        return vec4(mix(GRASSLAND.xyz, SUBTROPICAL_DESERT.xyz, mixcolor),1.0);
+        //MUD >> BEACH
+        return vec4(mix(BEACH.xyz, MUD.xyz, mixcolor),1.0);
     }
     if (m < 0.33) {
         mixcolor = 1.0 - smoothstep(0.16,0.33,m);
-        //GRASSLAND >> TROPICAL_SEASONAL_FOREST
-        return vec4(mix(TROPICAL_SEASONAL_FOREST.xyz, GRASSLAND.xyz, mixcolor),1.0);
+        //BEACH >> GRAVEL
+        return vec4(mix(GRAVEL.xyz, BEACH.xyz, mixcolor),1.0);
     }
-    if (m < 0.66){
-        mixcolor = 1.0 - smoothstep(0.33,0.66,m);
-        //TROPICAL_SEASONAL_FOREST >> DIRT
-        return vec4(mix(DIRT.xyz, TROPICAL_SEASONAL_FOREST.xyz, mixcolor),1.0);
+    if (m < 0.43){
+        mixcolor = 1.0 - smoothstep(0.33,0.43,m);
+        //GRAVEL >> DIRT
+        return vec4(mix(DIRT.xyz, GRAVEL.xyz, mixcolor),1.0);
     }
     return DIRT;
 }
+
 
 vec4 biome_second_level(float m){
     if(m < 0) m = 0;
     if(m > 1) m = 1;
     float mixcolor;
 
-    if (m < 0.16) {
-        mixcolor = 1.0 - smoothstep(0.0,0.16,m);
-        //TEMPERATE_DESERT >> GRASSLAND
-        return vec4(mix(GRASSLAND.xyz, TEMPERATE_DESERT.xyz, mixcolor),1.0);
+    if (m < 0.25) {
+        mixcolor = 1.0 - smoothstep(0.0,0.25,m);
+        //DESERT >> FOREST
+        return vec4(mix(FOREST.xyz, DESERT.xyz, mixcolor),1.0);
     }
-    if (m < 0.50) {
-        mixcolor = 1.0 - smoothstep(0.16,0.50,m);
-        //GRASSLAND >> TEMPERATE_DECIDUOUS_FOREST
-        return vec4(mix(TEMPERATE_DECIDUOUS_FOREST.xyz, GRASSLAND.xyz, mixcolor),1.0);
+    if (m < 0.55) {
+        mixcolor = 1.0 - smoothstep(0.25,0.55,m);
+        //FOREST >> GRASSLAND
+        return vec4(mix(GRASSLAND.xyz, FOREST.xyz, mixcolor),1.0);
     }
-    if (m < 0.83) {
-        mixcolor = 1.0 - smoothstep(0.50,0.83,m);
-        //TEMPERATE_DECIDUOUS_FOREST >> TEMPERATE_RAIN_FOREST
-        return vec4(mix(TEMPERATE_RAIN_FOREST.xyz, TEMPERATE_DECIDUOUS_FOREST.xyz, mixcolor),1.0);
-    }
-    return TEMPERATE_RAIN_FOREST;
+    return GRASSLAND;
 }
 
 vec4 biome_third_level(float m){
@@ -165,17 +156,17 @@ vec4 biome_third_level(float m){
     if(m > 1.0) m = 1.0;
     float mixcolor;
 
-    if (m < 0.33) {
-        mixcolor = 1.0 - smoothstep(0.0,0.33,m);
-        //TEMPERATE_DESERT >> SHRUBLAND
-        return vec4(mix(SHRUBLAND.xyz, TEMPERATE_DESERT.xyz, mixcolor),1.0);
+    if (m < 0.1) {
+        mixcolor = 1.0 - smoothstep(0.0,0.1,m);
+        //GRASSLAND >> BADLANDS
+        return vec4(mix(BADLANDS.xyz, GRASSLAND.xyz, mixcolor),1.0);
     }
-    if (m < 0.66) {
-        mixcolor = 1.0 - smoothstep(0.33,0.66,m);
-        //SHRUBLAND >> ROCK
-        return vec4(mix(ROCK.xyz, SHRUBLAND.xyz, mixcolor),1.0);
+    if (m < 0.25) {
+        mixcolor = 1.0 - smoothstep(0.1,0.25,m);
+        //BADLANDS >> MOUNTAIN
+        return vec4(mix(MOUNTAIN.xyz, BADLANDS.xyz, mixcolor),1.0);
     }
-    return ROCK;
+    return MOUNTAIN;
 }
 
 
@@ -311,13 +302,13 @@ void main() {
 						+ texCoordTC[1] * v
 						+ texCoordTC[2] * w);
 
-	float offset = 16/frequencia;
+	float os = offset/frequencia;
 	float scaleuv = 0.001;
 	vec2 uv =  scaleuv * P.xz;
-	vec2 uv1 = uv - scaleuv * vec2(0, offset);
-	vec2 uv2 = uv + scaleuv * vec2(0, offset);
-	vec2 uv3 = uv - scaleuv * vec2(offset, 0);
-	vec2 uv4 = uv + scaleuv * vec2(offset, 0);
+	vec2 uv1 = uv - scaleuv * vec2(0, os);
+	vec2 uv2 = uv + scaleuv * vec2(0, os);
+	vec2 uv3 = uv - scaleuv * vec2(os, 0);
+	vec2 uv4 = uv + scaleuv * vec2(os, 0);
 
 
     float f  = elevation(uv);
@@ -327,10 +318,10 @@ void main() {
     float f4 = elevation(uv4);
 
     vec4 pos = vec4(P.x, f, P.z, 1);
-    vec4 pos1 = vec4(P.x, f1, P.z-offset, 1);
-    vec4 pos2 = vec4(P.x, f2, P.z+offset, 1);
-    vec4 pos3 = vec4(P.x-offset, f3, P.z, 1);
-    vec4 pos4 = vec4(P.x+offset, f4, P.z, 1);
+    vec4 pos1 = vec4(P.x, f1, P.z-os, 1);
+    vec4 pos2 = vec4(P.x, f2, P.z+os, 1);
+    vec4 pos3 = vec4(P.x-os, f3, P.z, 1);
+    vec4 pos4 = vec4(P.x+os, f4, P.z, 1);
 
 	// Pass-through the texture coordinates
 	//DataOut.texCoord1 = texCoord * tex;

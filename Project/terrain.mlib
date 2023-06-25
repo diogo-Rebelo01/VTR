@@ -86,6 +86,7 @@
                                         <valueof uniform="scale"          type="RENDERER" component="scale"          />
                                         <valueof uniform="scaleMoisture"  type="RENDERER" component="scaleMoisture"  />
                                         <valueof uniform="scaleTex"       type="RENDERER" component="scaleTex"       />
+                                        <valueof uniform="offset"         type="RENDERER" component="offset"          />
                                         <valueof uniform="use_moisture"   type="RENDERER" component="use_moisture"   />
                                         <valueof uniform="use_textures"   type="RENDERER" component="use_textures"   />
                                         <!-- LAYERS LEVELS -->
@@ -93,21 +94,18 @@
                                         <valueof uniform="second_level" type="RENDERER"  component="second_level"  />
                                         <valueof uniform="third_level"  type="RENDERER"  component="third_level"   />
                                         <valueof uniform="fourth_level" type="RENDERER"  component="fourth_level"  />
-                                        <!-- COLORS BIOMES -->
-                                        <valueof uniform="BEACH"                      type="RENDERER" context="CURRENT" component="BEACH"                      />
-                                        <valueof uniform="DIRT"                   type="RENDERER" context="CURRENT" component="DIRT"                   />
-                                        <valueof uniform="BARE"                       type="RENDERER" context="CURRENT" component="BARE"                       />
-                                        <valueof uniform="TUNDRA"                     type="RENDERER" context="CURRENT" component="TUNDRA"                     />
+                                        <!-- COLORS BIOMES (SNOW, MOUNTAIN, TUNDRA, BADLANDS, MUD, DIRT, GRAVEL, BEACH, DESERT, GRASSLAND, FOREST)-->
                                         <valueof uniform="SNOW"                       type="RENDERER" context="CURRENT" component="SNOW"                       />
-                                        <valueof uniform="SHRUBLAND"                  type="RENDERER" context="CURRENT" component="SHRUBLAND"                  />
-                                        <valueof uniform="ROCK"                      type="RENDERER" context="CURRENT" component="ROCK"                      />
-                                        <valueof uniform="TEMPERATE_DESERT"           type="RENDERER" context="CURRENT" component="TEMPERATE_DESERT"           />
+                                        <valueof uniform="MOUNTAIN"                   type="RENDERER" context="CURRENT" component="MOUNTAIN"                   />
+                                        <valueof uniform="TUNDRA"                     type="RENDERER" context="CURRENT" component="TUNDRA"                     />
+                                        <valueof uniform="BADLANDS"                   type="RENDERER" context="CURRENT" component="BADLANDS"                   />
+                                        <valueof uniform="BEACH"                      type="RENDERER" context="CURRENT" component="BEACH"                      />
+                                        <valueof uniform="DIRT"                       type="RENDERER" context="CURRENT" component="DIRT"                       />
+                                        <valueof uniform="MUD"                        type="RENDERER" context="CURRENT" component="MUD"                        />
+                                        <valueof uniform="GRAVEL"                     type="RENDERER" context="CURRENT" component="GRAVEL"                     />
+                                        <valueof uniform="DESERT"                     type="RENDERER" context="CURRENT" component="DESERT"                     />
                                         <valueof uniform="GRASSLAND"                  type="RENDERER" context="CURRENT" component="GRASSLAND"                  />
-                                        <valueof uniform="TEMPERATE_DECIDUOUS_FOREST" type="RENDERER" context="CURRENT" component="TEMPERATE_DECIDUOUS_FOREST" />
-                                        <valueof uniform="TEMPERATE_RAIN_FOREST"      type="RENDERER" context="CURRENT" component="TEMPERATE_RAIN_FOREST"      />
-                                        <valueof uniform="SUBTROPICAL_DESERT"         type="RENDERER" context="CURRENT" component="SUBTROPICAL_DESERT"         />
-                                        <valueof uniform="TROPICAL_SEASONAL_FOREST"   type="RENDERER" context="CURRENT" component="TROPICAL_SEASONAL_FOREST"   />
-                                        <valueof uniform="TROPICAL_RAIN_FOREST"       type="RENDERER" context="CURRENT" component="TROPICAL_RAIN_FOREST"       />
+                                        <valueof uniform="FOREST"                     type="RENDERER" context="CURRENT" component="FOREST"                     />
                                         <!-- TEXTURES -->
                                         <valueof uniform="texDIRT"  type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id="0" />
                                         <valueof uniform="texGRASS" type="TEXTURE_BINDING" context="CURRENT" component="UNIT" id="1" />
