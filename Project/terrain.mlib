@@ -3,10 +3,10 @@
 
         <textures>
 		<texture name="texDIRT"  filename="textures/dirt.png"  mipmap="true" />
-                <texture name="texGRASS" filename="textures/grass.png" mipmap="true" />
+                <texture name="texGRASS" filename="textures/grass.jpg" mipmap="true" />
                 <texture name="texSNOW"  filename="textures/snow.jpg"  mipmap="true" />
                 <texture name="texSAND"  filename="textures/sand.jpg"  mipmap="true" />
-                <texture name="texROCK"  filename="textures/rock.png"  mipmap="true" />
+                <texture name="texROCK"  filename="textures/rock.jpg"  mipmap="true" />
                 <cubeMap name="CM"
                         filePosX="textures/posx.bmp"
 			fileNegX="textures/negx.bmp"
@@ -86,7 +86,8 @@
                                         <valueof uniform="scale"          type="RENDERER" component="scale"          />
                                         <valueof uniform="scaleMoisture"  type="RENDERER" component="scaleMoisture"  />
                                         <valueof uniform="scaleTex"       type="RENDERER" component="scaleTex"       />
-                                        <valueof uniform="offset"         type="RENDERER" component="offset"          />
+                                        <valueof uniform="offset"         type="RENDERER" component="offset"         />
+                                        <valueof uniform="adjust"         type="RENDERER" component="adjust"         />
                                         <valueof uniform="use_moisture"   type="RENDERER" component="use_moisture"   />
                                         <valueof uniform="use_textures"   type="RENDERER" component="use_textures"   />
                                         <!-- LAYERS LEVELS -->

@@ -6,13 +6,11 @@ layout(triangles, fractional_odd_spacing, ccw) in;
 uniform	mat4 m_pvm, m_view;
 uniform	mat3 m_normal;
 uniform vec4 l_dir;
-uniform float amplitude, scale, scaleMoisture, scaleTex, frequencia, first_level, second_level, third_level, fourth_level, redistribuicao, seed, seedMoisure, offset;
+uniform float amplitude, scale, scaleMoisture, scaleTex, frequencia, first_level, second_level, third_level, fourth_level, redistribuicao, seed, seedMoisure, offset, adjust;
 uniform int num_octaves, use_moisture;
 uniform vec4 SNOW, MOUNTAIN, TUNDRA, BADLANDS, MUD, DIRT, GRAVEL, BEACH, DESERT, GRASSLAND, FOREST;
 in vec2 texCoordTC[];
 in vec4 posTC[];
-
-int adjust = 100;
 
 out Data {
     vec3 normal;
@@ -57,28 +55,28 @@ vec4 biome_no_moisure(float e){
         return vec4(mix(dirt, beach, mixtc),1.0);
         }
     
-    if(e > (fourth_level * scale) + adjust){
+    if(e > (fourth_level * scale)){
         return SNOW;
     }
     if(e > (third_level * scale) + adjust){
-        float start = (third_level * scale) + adjust;
-        float end = (fourth_level * scale) + adjust;
+        float start = (third_level * scale);
+        float end = (fourth_level * scale);
         mixtc = 1.0 - smoothstep(start,end,e);
         vec3 mountain = MOUNTAIN.xyz;
         vec3 snow = SNOW.xyz;
         return vec4(mix(snow, mountain, mixtc),1.0);
     }
-    if(e > (second_level * scale) + adjust){
-        float start = (second_level * scale) + adjust;
-        float end = (third_level * scale) + adjust;
+    if(e > (second_level * scale)){
+        float start = (second_level * scale);
+        float end = (third_level * scale);
         mixtc = 1.0 - smoothstep(start,end,e);
         vec3 grassland = GRASSLAND.xyz;
         vec3 mountain = MOUNTAIN.xyz;
         return vec4(mix(mountain, grassland, mixtc),1.0);
     }
     //if (e < 100) = mixtc = 1.0 - smoothstep(100,second_level,100);
-    float start = (first_level * scale) + adjust;
-    float end = (second_level * scale) + adjust;
+    float start = (first_level * scale);
+    float end = (second_level * scale);
     mixtc = 1.0 - smoothstep(start,end,e);
     vec3 dirt = DIRT.xyz;
     vec3 grassland = GRASSLAND.xyz;
@@ -180,28 +178,28 @@ vec4 biome(float e, float m){
         return vec4(mix(first, beach, mixcolor),1.0);
     }
     
-    if(e > (fourth_level * scale) + adjust){
+    if(e > (fourth_level * scale)){
         return biome_fourth_level(m);
     }
     if(e > (third_level * scale) + adjust){
-        float start = (third_level * scale) + adjust;
-        float end = (fourth_level * scale) + adjust;
+        float start = (third_level * scale);
+        float end = (fourth_level * scale);
         mixcolor = 1.0 - smoothstep(start,end,e);
         vec3 third = biome_third_level(m).xyz;
         vec3 fourth = biome_fourth_level(m).xyz;
         return vec4(mix(fourth, third, mixcolor),1.0);
     }
-    if(e > (second_level * scale) + adjust){
-        float start = (second_level * scale) + adjust;
-        float end = (third_level * scale) + adjust;
+    if(e > (second_level * scale)){
+        float start = (second_level * scale);
+        float end = (third_level * scale);
         mixcolor = 1.0 - smoothstep(start,end,e);
         vec3 second = biome_second_level(m).xyz;
         vec3 third = biome_third_level(m).xyz;
         return vec4(mix(third, second, mixcolor),1.0);
 
     }
-    float start = (first_level * scale) + adjust;
-    float end = (second_level * scale) + adjust;
+    float start = (first_level * scale);
+    float end = (second_level * scale);
     mixcolor = 1.0 - smoothstep(start,end,e);
     vec3 first = biome_first_level(m).xyz;
     vec3 second = biome_second_level(m).xyz;
