@@ -107,7 +107,7 @@
                     <light name="Sun" />
                 </lights>
  				<materialMaps>
-                    <map fromMaterial="skybox"  toMaterial="skybox"   toLibrary="Terrain" />
+                    <!--<map fromMaterial="skybox"  toMaterial="skybox"   toLibrary="Terrain" /> Buga de vez em quando-->
                     <map fromMaterial="terrain" toMaterial="terrain"  toLibrary="Terrain" />
                     <map fromMaterial="water"   toMaterial="water"    toLibrary="Terrain" />
 				</materialMaps>
@@ -124,7 +124,7 @@
                     <light name="Sun" />
                 </lights>
  				<materialMaps>
-                    <map fromMaterial="skybox"  toMaterial="skybox"   toLibrary="Terrain" />
+                    <!--<map fromMaterial="skybox"  toMaterial="skybox"   toLibrary="Terrain" />  Buga de vez em quando-->
                     <map fromMaterial="terrain" toMaterial="terrain"  toLibrary="Terrain" />
                     <map fromMaterial="water"   toMaterial="water"    toLibrary="Terrain" />
 				</materialMaps>
